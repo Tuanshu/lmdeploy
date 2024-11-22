@@ -1039,6 +1039,9 @@ def serve(model_path: str,
         os.environ['TM_LOG_LEVEL'] = log_level
     logger.setLevel(log_level)
 
+
+    print("[dev] mounted code (api server) is about to run!")
+
     if disable_fastapi_docs:
         app = FastAPI(
             docs_url=None,
