@@ -11,7 +11,7 @@
                 {
                     "type": "image_url",
                     "image_url": {
-                        "url": "https://raw.githubusercontent.com/open-mmlab/mmdeploy/main/tests/data/tiger.jpeg"
+                        "url": "https://cloud-gateway.ces.myfiinet.com/icenter-item/upload/tiger.jpeg"
                     }
                 }
             ]

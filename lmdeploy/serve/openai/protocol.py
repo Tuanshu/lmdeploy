@@ -6,6 +6,7 @@ from typing import Any, Dict, List, Literal, Optional, Union
 
 import shortuuid
 from pydantic import BaseModel, Field
+from pydantic.json_schema import SkipJsonSchema
 
 
 class ErrorResponse(BaseModel):
@@ -108,37 +109,53 @@ class ResponseFormat(BaseModel):
 
 class ChatCompletionRequest(BaseModel):
     """Chat completion request."""
-    model: str
+    model: str = Field(examples=["OpenGVLab/InternVL2-1B"])
     # yapf: disable
-    messages: Union[str, List[Dict[str, Any]]] = Field(examples=[[{'role': 'user', 'content': 'hi'}]])  # noqa
-    temperature: Optional[float] = 0.7
-    top_p: Optional[float] = 1.0
-    tools: Optional[List[Tool]] = Field(default=None, examples=[None])
-    tool_choice: Union[ToolChoice, Literal['auto', 'required', 'none']] = Field(default='auto', examples=['none'])  # noqa
-    logprobs: Optional[bool] = False
-    top_logprobs: Optional[int] = None
-    n: Optional[int] = 1
-    logit_bias: Optional[Dict[str, float]] = Field(default=None, examples=[None])  # noqa
-    max_tokens: Optional[int] = Field(default=None, examples=[None])
-    stop: Optional[Union[str, List[str]]] = Field(default=None, examples=[None])  # noqa
+    messages: Union[str, List[Dict[str, Any]]] = Field(examples=[[
+        {
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Describe the image please"
+                },
+                {
+                    "type": "image_url",
+                    "image_url": {
+                        "url": "https://cloud-gateway.ces.myfiinet.com/icenter-item/upload/tiger.jpeg"
+                    }
+                }
+            ]
+        }
+    ]])  # noqa
+    temperature: SkipJsonSchema[float] = 0.7
+    top_p: SkipJsonSchema[float] = 1.0
+    tools: SkipJsonSchema[List[Tool]] = Field(default=None, examples=[None])
+    tool_choice: SkipJsonSchema[ToolChoice, Literal['auto', 'required', 'none']] = Field(default='auto', examples=['none'])  # noqa
+    logprobs: SkipJsonSchema[bool] = False
+    top_logprobs: SkipJsonSchema[int] = None
+    n: SkipJsonSchema[int] = 1
+    logit_bias: SkipJsonSchema[Dict[str, float]] = Field(default=None, examples=[None])  # noqa
+    max_tokens: SkipJsonSchema[int] = Field(default=None, examples=[None])
+    stop: SkipJsonSchema[Union[str, List[str]]] = Field(default=None, examples=[None])  # noqa
     # yapf: enable
     stream: Optional[bool] = False
-    stream_options: Optional[StreamOptions] = Field(default=None,
+    stream_options: SkipJsonSchema[StreamOptions] = Field(default=None,
                                                     examples=[None])
-    presence_penalty: Optional[float] = 0.0
-    frequency_penalty: Optional[float] = 0.0
-    user: Optional[str] = None
-    response_format: Optional[ResponseFormat] = Field(default=None,
+    presence_penalty: SkipJsonSchema[float] = 0.0
+    frequency_penalty: SkipJsonSchema[float] = 0.0
+    user: SkipJsonSchema[str] = None
+    response_format: SkipJsonSchema[ResponseFormat] = Field(default=None,
                                                       examples=[None])  # noqa
     # additional argument of lmdeploy
-    repetition_penalty: Optional[float] = 1.0
-    session_id: Optional[int] = -1
-    ignore_eos: Optional[bool] = False
-    skip_special_tokens: Optional[bool] = True
-    top_k: Optional[int] = 40
-    seed: Optional[int] = None
-    min_new_tokens: Optional[int] = Field(default=None, examples=[None])
-    min_p: float = 0.0
+    repetition_penalty: SkipJsonSchema[float] = 1.0
+    session_id: SkipJsonSchema[int] = -1
+    ignore_eos: SkipJsonSchema[bool] = False
+    skip_special_tokens: SkipJsonSchema[bool] = True
+    top_k: SkipJsonSchema[int] = 40
+    seed: SkipJsonSchema[int] = None
+    min_new_tokens: SkipJsonSchema[int] = Field(default=None, examples=[None])
+    min_p: SkipJsonSchema[float] = 0.0
 
 
 class FunctionResponse(BaseModel):
