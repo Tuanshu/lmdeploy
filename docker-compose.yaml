@@ -25,4 +25,4 @@ services:
             - driver: nvidia
               # count: 4
               capabilities: [gpu]
-              device_ids: ["1"]
+              device_ids: ["0"]
