@@ -203,9 +203,12 @@ def get_model(pretrained_model_name_or_path: str,
     if token is not None:
         download_kwargs['token'] = token
 
+    print('[dev] about to call snapshot_download')
     model_path = snapshot_download(pretrained_model_name_or_path,
                                    ignore_patterns=['*.pth'],
                                    **download_kwargs)
+    print('[dev] snapshot_download done')
+
     return model_path
 
 
