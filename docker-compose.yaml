@@ -12,6 +12,7 @@ services:
       # - ./lmdeploy/serve/openai/api_server.py:/opt/lmdeploy/lmdeploy/serve/openai/api_server.py
       # - ./lmdeploy/cli:/opt/lmdeploy/lmdeploy/cli
       # - ./lmdeploy/utils.py:/opt/lmdeploy/lmdeploy/utils.py
+      - ./lmdeploy/serve/openai/protocol.py:/opt/lmdeploy/lmdeploy/serve/openai/protocol.py
 
     ports:
       - "6611:23333"
