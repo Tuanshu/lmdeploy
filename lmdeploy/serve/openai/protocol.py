@@ -131,7 +131,7 @@ class ChatCompletionRequest(BaseModel):
     temperature: SkipJsonSchema[float] = 0.7
     top_p: SkipJsonSchema[float] = 1.0
     tools: SkipJsonSchema[List[Tool]] = Field(default=None, examples=[None])
-    tool_choice: SkipJsonSchema[ToolChoice, Literal['auto', 'required', 'none']] = Field(default='auto', examples=['none'])  # noqa
+    tool_choice: SkipJsonSchema[Union[ToolChoice, Literal['auto', 'required', 'none']]] = Field(default='auto', examples=['none'])  # noqa
     logprobs: SkipJsonSchema[bool] = False
     top_logprobs: SkipJsonSchema[int] = None
     n: SkipJsonSchema[int] = 1

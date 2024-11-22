@@ -280,60 +280,60 @@ def logit_bias_logits_processor(logit_bias: Union[Dict[int, float],
 @router.post('/v1/chat/completions', dependencies=[Depends(check_api_key)])
 async def chat_completions_v1(request: ChatCompletionRequest,
                               raw_request: Request = None):
-    """Completion API similar to OpenAI's API.
+    # """Completion API similar to OpenAI's API.
 
-    Refer to  `https://platform.openai.com/docs/api-reference/chat/create`
-    for the API specification.
+    # Refer to  `https://platform.openai.com/docs/api-reference/chat/create`
+    # for the API specification.
 
-    The request should be a JSON object with the following fields:
-    - model: model name. Available from /v1/models.
-    - messages: string prompt or chat history in OpenAI format. Chat history
-        example: `[{"role": "user", "content": "hi"}]`.
-    - temperature (float): to modulate the next token probability
-    - top_p (float): If set to float < 1, only the smallest set of most
-        probable tokens with probabilities that add up to top_p or higher
-        are kept for generation.
-    - n (int): How many chat completion choices to generate for each input
-        message. **Only support one here**.
-    - stream: whether to stream the results or not. Default to false.
-    - max_tokens (int | None): output token nums. Default to None.
-    - repetition_penalty (float): The parameter for repetition penalty.
-        1.0 means no penalty
-    - stop (str | List[str] | None): To stop generating further
-        tokens. Only accept stop words that's encoded to one token idex.
-    - response_format (Dict | None): Only pytorch backend support formatting
-        response. Examples: `{"type": "json_schema", "json_schema": {"name":
-        "test","schema": {"properties": {"name": {"type": "string"}},
-        "required": ["name"], "type": "object"}}}`
-        or `{"type": "regex_schema", "regex_schema": "call me [A-Za-z]{1,10}"}`
-    - logit_bias (Dict): Bias to logits. Only supported in pytorch engine.
-    - tools (List): A list of tools the model may call. Currently, only
-        internlm2 functions are supported as a tool. Use this to specify a
-        list of functions for which the model can generate JSON inputs.
-    - tool_choice (str | object): Controls which (if any) tool is called by
-        the model. `none` means the model will not call any tool and instead
-        generates a message. Specifying a particular tool via {"type":
-        "function", "function": {"name": "my_function"}} forces the model to
-        call that tool. `auto` or `required` will put all the tools information
-        to the model.
+    # The request should be a JSON object with the following fields:
+    # - model: model name. Available from /v1/models.
+    # - messages: string prompt or chat history in OpenAI format. Chat history
+    #     example: `[{"role": "user", "content": "hi"}]`.
+    # - temperature (float): to modulate the next token probability
+    # - top_p (float): If set to float < 1, only the smallest set of most
+    #     probable tokens with probabilities that add up to top_p or higher
+    #     are kept for generation.
+    # - n (int): How many chat completion choices to generate for each input
+    #     message. **Only support one here**.
+    # - stream: whether to stream the results or not. Default to false.
+    # - max_tokens (int | None): output token nums. Default to None.
+    # - repetition_penalty (float): The parameter for repetition penalty.
+    #     1.0 means no penalty
+    # - stop (str | List[str] | None): To stop generating further
+    #     tokens. Only accept stop words that's encoded to one token idex.
+    # - response_format (Dict | None): Only pytorch backend support formatting
+    #     response. Examples: `{"type": "json_schema", "json_schema": {"name":
+    #     "test","schema": {"properties": {"name": {"type": "string"}},
+    #     "required": ["name"], "type": "object"}}}`
+    #     or `{"type": "regex_schema", "regex_schema": "call me [A-Za-z]{1,10}"}`
+    # - logit_bias (Dict): Bias to logits. Only supported in pytorch engine.
+    # - tools (List): A list of tools the model may call. Currently, only
+    #     internlm2 functions are supported as a tool. Use this to specify a
+    #     list of functions for which the model can generate JSON inputs.
+    # - tool_choice (str | object): Controls which (if any) tool is called by
+    #     the model. `none` means the model will not call any tool and instead
+    #     generates a message. Specifying a particular tool via {"type":
+    #     "function", "function": {"name": "my_function"}} forces the model to
+    #     call that tool. `auto` or `required` will put all the tools information
+    #     to the model.
 
-    Additional arguments supported by LMDeploy:
-    - top_k (int): The number of the highest probability vocabulary
-        tokens to keep for top-k-filtering
-    - ignore_eos (bool): indicator for ignoring eos
-    - skip_special_tokens (bool): Whether or not to remove special tokens
-        in the decoding. Default to be True.
-    - min_new_tokens (int): To generate at least numbers of tokens.
-    - min_p (float): Minimum token probability, which will be scaled by the
-        probability of the most likely token. It must be a value between
-        0 and 1. Typical values are in the 0.01-0.2 range, comparably
-        selective as setting `top_p` in the 0.99-0.8 range (use the
-        opposite of normal `top_p` values)
+    # Additional arguments supported by LMDeploy:
+    # - top_k (int): The number of the highest probability vocabulary
+    #     tokens to keep for top-k-filtering
+    # - ignore_eos (bool): indicator for ignoring eos
+    # - skip_special_tokens (bool): Whether or not to remove special tokens
+    #     in the decoding. Default to be True.
+    # - min_new_tokens (int): To generate at least numbers of tokens.
+    # - min_p (float): Minimum token probability, which will be scaled by the
+    #     probability of the most likely token. It must be a value between
+    #     0 and 1. Typical values are in the 0.01-0.2 range, comparably
+    #     selective as setting `top_p` in the 0.99-0.8 range (use the
+    #     opposite of normal `top_p` values)
 
-    Currently we do not support the following features:
-    - presence_penalty (replaced with repetition_penalty)
-    - frequency_penalty (replaced with repetition_penalty)
-    """
+    # Currently we do not support the following features:
+    # - presence_penalty (replaced with repetition_penalty)
+    # - frequency_penalty (replaced with repetition_penalty)
+    # """
     if request.session_id == -1:
         VariableInterface.session_id += 1
         request.session_id = VariableInterface.session_id
@@ -552,7 +552,7 @@ async def chat_completions_v1(request: ChatCompletionRequest,
     return response
 
 
-@router.post('/v1/completions', dependencies=[Depends(check_api_key)])
+#@router.post('/v1/completions', dependencies=[Depends(check_api_key)])
 async def completions_v1(request: CompletionRequest,
                          raw_request: Request = None):
     """Completion API similar to OpenAI's API.
@@ -760,7 +760,7 @@ async def completions_v1(request: CompletionRequest,
     return response
 
 
-@router.post('/v1/embeddings', tags=['unsupported'])
+#@router.post('/v1/embeddings', tags=['unsupported'])
 async def create_embeddings(request: EmbeddingsRequest,
                             raw_request: Request = None):
     """Creates embeddings for the text."""
@@ -768,7 +768,7 @@ async def create_embeddings(request: EmbeddingsRequest,
                                  'Unsupported by turbomind.')
 
 
-@router.post('/v1/encode', dependencies=[Depends(check_api_key)])
+#@router.post('/v1/encode', dependencies=[Depends(check_api_key)])
 async def encode(request: EncodeRequest, raw_request: Request = None):
     """Encode prompts.
 
@@ -799,7 +799,7 @@ async def encode(request: EncodeRequest, raw_request: Request = None):
         return EncodeResponse(input_ids=encoded, length=length)
 
 
-@router.post('/v1/chat/interactive', dependencies=[Depends(check_api_key)])
+#@router.post('/v1/chat/interactive', dependencies=[Depends(check_api_key)])
 async def chat_interactive_v1(request: GenerateRequest,
                               raw_request: Request = None):
     """Generate completion for the request.
@@ -1047,9 +1047,10 @@ def serve(model_path: str,
             docs_url=None,
             redoc_url=None,
             openapi_url=None,
+            swagger_ui_parameters={"defaultModelsExpandDepth": -1}
         )
     else:
-        app = FastAPI(docs_url='/')
+        app = FastAPI(swagger_ui_parameters={"defaultModelsExpandDepth": -1}) # docs_url='/',
 
     app.include_router(router)
 
