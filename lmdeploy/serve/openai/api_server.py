@@ -1040,6 +1040,8 @@ def serve(model_path: str,
         os.environ['TM_LOG_LEVEL'] = log_level
     logger.setLevel(log_level)
 
+    print(f'serve called with disable_fastapi_docs={disable_fastapi_docs}')
+
     if disable_fastapi_docs:
         app = FastAPI(
             docs_url=None,
