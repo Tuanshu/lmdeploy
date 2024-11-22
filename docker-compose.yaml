@@ -1,0 +1,22 @@
+services:
+  lmdeploy-internvl:
+    build:
+      dockerfile: ./docker/InternVL_Dockerfile
+    restart: always
+    image: openmmlab/lmdeploy:internvl
+    # entrypoint:  ["tail", "-f", "/dev/null"]
+    entrypoint: ["lmdeploy", "serve", "api_server", "OpenGVLab/InternVL2-1B"]
+    volumes:
+      - /data/.cache:/root/.cache
+
+    ports:
+      - "6607:23333"
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              # count: 4
+              capabilities: [gpu]
+              device_ids: ["1"]
