@@ -291,6 +291,7 @@ class SubCliServe:
 
     @staticmethod
     def api_server(args):
+        print(f'[dev] in cli, api_server, args.backend={args.backend}')
         """Serve LLMs with restful api using fastapi."""
         from lmdeploy.archs import autoget_backend
         from lmdeploy.serve.openai.api_server import serve as run_api_server
@@ -335,6 +336,8 @@ class SubCliServe:
 
         from lmdeploy.messages import VisionConfig
         vision_config = VisionConfig(args.vision_max_batch_size)
+        print(f'[dev] in cli, about to run_api_server, backend_config={backend_config}, chat_template_config={chat_template_config}, vision_config={vision_config},')
+
         run_api_server(args.model_path,
                        model_name=args.model_name,
                        backend=backend,

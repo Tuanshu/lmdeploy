@@ -1040,7 +1040,7 @@ def serve(model_path: str,
         os.environ['TM_LOG_LEVEL'] = log_level
     logger.setLevel(log_level)
 
-    print(f'serve called with disable_fastapi_docs={disable_fastapi_docs}')
+    print(f'[dev] serve called with disable_fastapi_docs={disable_fastapi_docs}')
 
     if disable_fastapi_docs:
         app = FastAPI(
@@ -1100,5 +1100,4 @@ def serve(model_path: str,
 
 if __name__ == '__main__':
     import fire
-
     fire.Fire(serve)
