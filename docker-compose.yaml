@@ -8,8 +8,8 @@ services:
     entrypoint: ["lmdeploy", "serve", "api_server", "OpenGVLab/InternVL2-1B"]
     volumes:
       - /data/.cache:/root/.cache
-      - ./lmdeploy_docker:/opt/lmdeploy/lmdeploy
-      # - ./lmdeploy/serve/openai/api_server.py:/opt/lmdeploy/lmdeploy/serve/openai/api_server.py
+      # - ./lmdeploy_docker:/opt/lmdeploy/lmdeploy
+      - ./lmdeploy/serve/openai/api_server.py:/opt/lmdeploy/lmdeploy/serve/openai/api_server.py
 
     ports:
       - "6611:23333"
