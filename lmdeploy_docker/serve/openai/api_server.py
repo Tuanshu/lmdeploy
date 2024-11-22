@@ -495,18 +495,17 @@ async def chat_completions_v1(request: ChatCompletionRequest,
             final_logprobs.extend(res.logprobs)
 
     tool_calls = None
-    if request.tool_choice != 'none' and ('<|plugin|>' in text or '<function='
-                                          in text or '<tool_call>' in text):
+    if request.tool_choice != 'none' and ('<|plugin|>' in text
+                                          or '<function=' in text):
         if final_res.finish_reason == 'stop':
             final_res.finish_reason = 'tool_calls'
         try:  # TODO add json_schema guidance to turbomind
-            text, call_info_list = VariableInterface.async_engine.parse_tool_response(  # noqa
+            text, action_id, name, parameters = VariableInterface.async_engine.parse_tool_response(  # noqa
                 text, request.tools)
             tool_calls = [
-                ToolCall(id=str(call_info[0]),
-                         function=FunctionResponse(name=call_info[1],
-                                                   arguments=call_info[2]))
-                for call_info in call_info_list
+                ToolCall(id=str(action_id),
+                         function=FunctionResponse(name=name,
+                                                   arguments=parameters))
             ]
         except Exception as e:
             logger.error(f'Exception: {e}')
@@ -1039,8 +1038,6 @@ def serve(model_path: str,
     if os.getenv('TM_LOG_LEVEL') is None:
         os.environ['TM_LOG_LEVEL'] = log_level
     logger.setLevel(log_level)
-
-    print(f'serve called with disable_fastapi_docs={disable_fastapi_docs}')
 
     if disable_fastapi_docs:
         app = FastAPI(
