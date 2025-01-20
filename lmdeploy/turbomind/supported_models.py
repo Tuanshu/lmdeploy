@@ -81,6 +81,7 @@ def is_supported(model_path: str):
     else:
         arch, cfg = get_model_arch(model_path)
 
+        logger.warning(f'arch={arch}, cfg={cfg}')
         if arch in SUPPORTED_ARCHS.keys():
             support_by_turbomind = True
             # special cases
