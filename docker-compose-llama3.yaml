@@ -6,10 +6,10 @@ services:
       dockerfile: ./docker/InternVL_Dockerfile
     restart: always
     image: openmmlab/lmdeploy:internvl
-    entrypoint:  ["tail", "-f", "/dev/null"]
+    # entrypoint:  ["tail", "-f", "/dev/null"]
     # cache-max-entry-count看起來是在把model load完之後，如果發現還有剩餘vram, 就會占用
     # 0.6就是占用剩下的60%, default is 0.8
-    #entrypoint: ["lmdeploy", "serve", "api_server", "alpindale/Llama-3.2-11B-Vision-Instruct", "--cache-max-entry-count", "0.6"]
+    entrypoint: ["lmdeploy", "serve", "api_server", "shenzhi-wang/Llama3.1-8B-Chinese-Chat", "--cache-max-entry-count", "0.4"]
     volumes:
       - /data/.cache:/root/.cache
       # - ./lmdeploy_docker:/opt/lmdeploy/lmdeploy
@@ -22,7 +22,7 @@ services:
       # MllamaForConditionalGeneration
 
     ports:
-      - "6615:23333"
+      - "6611:23333"
 
     deploy:
       resources:

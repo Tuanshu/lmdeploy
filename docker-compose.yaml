@@ -8,6 +8,12 @@ services:
     # cache-max-entry-count看起來是在把model load完之後，如果發現還有剩餘vram, 就會占用
     # 0.6就是占用剩下的60%, default is 0.8
     entrypoint: ["lmdeploy", "serve", "api_server", "OpenGVLab/InternVL2-1B", "--cache-max-entry-count", "0.6"]
+    # entrypoint: ["lmdeploy", "serve", "api_server", "OpenGVLab/InternVL2-8B", "--cache-max-entry-count", "0.6"]
+    # entrypoint: ["lmdeploy", "serve", "api_server", "OpenGVLab/InternVL2_5-8B", "--session-len", "128"]
+    # entrypoint: ["lmdeploy", "serve", "api_server", "OpenGVLab/InternVL2-1B", "--session-len", "128"]
+    # entrypoint: ["lmdeploy", "serve", "api_server", "OpenGVLab/InternVL2-1B", "--session_len", "128"]
+    # entrypoint: ["lmdeploy", "serve", "api_server", "OpenGVLab/InternVL2_5-1B", "--cache-max-entry-count", "0.6"]
+
     volumes:
       - /data/.cache:/root/.cache
       # - ./lmdeploy_docker:/opt/lmdeploy/lmdeploy
@@ -27,4 +33,5 @@ services:
             - driver: nvidia
               # count: 4
               capabilities: [gpu]
-              device_ids: ["1"]
+              # device_ids: ["1"]
+              device_ids: ["0"]
