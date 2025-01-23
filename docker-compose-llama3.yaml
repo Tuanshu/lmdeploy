@@ -9,7 +9,7 @@ services:
     # entrypoint:  ["tail", "-f", "/dev/null"]
     # cache-max-entry-count看起來是在把model load完之後，如果發現還有剩餘vram, 就會占用
     # 0.6就是占用剩下的60%, default is 0.8
-    entrypoint: ["lmdeploy", "serve", "api_server", "shenzhi-wang/Llama3.1-8B-Chinese-Chat", "--cache-max-entry-count", "0.4"]
+    entrypoint: ["lmdeploy", "serve", "api_server", "shenzhi-wang/Llama3.1-8B-Chinese-Chat", "--cache-max-entry-count", "0.75"]
     volumes:
       - /data/.cache:/root/.cache
       # - ./lmdeploy_docker:/opt/lmdeploy/lmdeploy
