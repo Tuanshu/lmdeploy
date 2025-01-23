@@ -552,7 +552,7 @@ async def chat_completions_v1(request: ChatCompletionRequest,
     return response
 
 
-#@router.post('/v1/completions', dependencies=[Depends(check_api_key)])
+@router.post('/v1/completions', dependencies=[Depends(check_api_key)])
 async def completions_v1(request: CompletionRequest,
                          raw_request: Request = None):
     """Completion API similar to OpenAI's API.
