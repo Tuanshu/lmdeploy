@@ -4,9 +4,40 @@ services:
       dockerfile: ./docker/InternVL_Dockerfile
     restart: always
     image: openmmlab/lmdeploy:internvl
-    entrypoint:  ["tail", "-f", "/dev/null"]
+    # image: openmmlab/lmdeploy:v0.7.0.post2-cu12
+
+    # entrypoint:  ["tail", "-f", "/dev/null"]
     # cache-max-entry-count看起來是在把model load完之後，如果發現還有剩餘vram, 就會占用
     # 0.6就是占用剩下的60%, default is 0.8
+
+    # | N/A   29C    P0              51W / 300W |   9720MiB / 32768MiB |      0%      Default |
+    # entrypoint: ["lmdeploy", "serve", "api_server", "OpenGVLab/InternVL2-1B", "--cache-max-entry-count", "0.1"]
+
+    # entrypoint: ["lmdeploy", "serve", "api_server", "OpenGVLab/InternVL2-1B", "--cache-max-entry-count", "0.1", "--tp", "2"]
+
+  #   |=========================================+======================+======================|
+  # |   0  Tesla V100-SXM2-32GB           Off | 00000000:00:0A.0 Off |                    0 |
+  # | N/A   29C    P0              51W / 300W |   7518MiB / 32768MiB |      0%      Default |
+  # |                                         |                      |                  N/A |
+  # +-----------------------------------------+----------------------+----------------------+
+  # |   1  Tesla V100-SXM2-32GB           Off | 00000000:00:0B.0 Off |                    0 |
+  # | N/A   27C    P0              51W / 300W |  14662MiB / 32768MiB |      0%      Default |     原本是10330MiB 所以占用4 GB
+
+
+    # entrypoint: ["lmdeploy", "serve", "api_server", "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B", "--cache-max-entry-count", "0.1", "--tp", "2"]
+
+  # |=========================================+======================+======================|
+  # |   0  Tesla V100-SXM2-32GB           Off | 00000000:00:0A.0 Off |                    0 |
+  # | N/A   29C    P0              51W / 300W |   3468MiB / 32768MiB |      0%      Default |
+  # |                                         |                      |                  N/A |
+  # +-----------------------------------------+----------------------+----------------------+
+  # |   1  Tesla V100-SXM2-32GB           Off | 00000000:00:0B.0 Off |                    0 |
+  # | N/A   27C    P0              51W / 300W |  10330MiB / 32768MiB |      0%      Default |
+    entrypoint: ["lmdeploy", "serve", "api_server", "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B", "--cache-max-entry-count", "0.6", "--tp", "2"]
+
+
+    # entrypoint: ["lmdeploy", "serve", "api_server", "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B", "--cache-max-entry-count", "0.1"]
+
     #entrypoint: ["lmdeploy", "serve", "api_server", "OpenGVLab/InternVL2_5-8B", "--cache-max-entry-count", "0.6"]
     # entrypoint: ["lmdeploy", "serve", "api_server", "Qwen/Qwen2.5-Coder-7B-Instruct", "--cache-max-entry-count", "0.6"]
 
@@ -18,6 +49,9 @@ services:
     # entrypoint: ["lmdeploy", "serve", "api_server", "OpenGVLab/InternVL2-1B", "--session-len", "128"]
     # entrypoint: ["lmdeploy", "serve", "api_server", "OpenGVLab/InternVL2-1B", "--session_len", "128"]
     # entrypoint: ["lmdeploy", "serve", "api_server", "OpenGVLab/InternVL2_5-1B", "--cache-max-entry-count", "0.6"]
+    # entrypoint: ["lmdeploy", "serve", "api_server", "OpenGVLab/InternVL2-1B", "--cache-max-entry-count", "0.6"]
+
+    # entrypoint: ["lmdeploy", "serve", "api_server", "shenzhi-wang/Llama3.1-8B-Chinese-Chat", "--cache-max-entry-count", "0.75"]
 
     volumes:
       - /data/.cache:/root/.cache
@@ -39,4 +73,4 @@ services:
               # count: 4
               capabilities: [gpu]
               # device_ids: ["1"]
-              device_ids: ["0"]
+              device_ids: ["0", '1']
